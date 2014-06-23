@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" data-ng-app="monospaced.qrcode" id="ng-app">
+<html class="no-js" ng-app="">
 <head>
     <meta charset="utf-8">
     <meta name="description" content="">
@@ -59,7 +59,7 @@
 
         <div id="menu">
             <div class="pure-menu pure-menu-open">
-                <a class="pure-menu-heading" href="#">PartyBox</a>
+                <a class="pure-menu-heading" href="#">PartyBox </a>
                 <ul>
                     <li><a href="/search.html">Search</a></li>
                 </ul>
@@ -68,14 +68,19 @@
 
         <div id="main">
             
-            <div class="pure-u-1-1">
-                <img src="assets/synchronicity.jpg" alt="" class="pure-u-1-3">
+            <div class="pure-u-1-1" ng-controller="PlayerController">
+                <img src="assets/synchronicity.jpg" alt="" ng-src="{{currentTrack.albumCover}}"class="pure-u-1-3">
                 
                 <div class="pure-u-1-5" style="display:block">
-                    <span>Artist</span>
+                    <span>{{currentTrack.name}}</span>
                     <br>
-                    <span>Album</span>
-                    <span>elapsed_time/total_time</span>
+                    <span>{{currentTrack.artist}}</span>
+                    <br>
+                    <span>{{currentTrack.album}}</span>
+                    <br>
+                    <span>{{elapsed_time}}/{{total_time}}</span>
+                    <br>
+                    <span>{{getCover(currentTrack.artists[0].name,currentTrack.album.name)}} </span>
                 </div>
             </div>
                 
@@ -105,6 +110,7 @@
     <script src="http://vela:6680/mopidy/mopidy.min.js"></script>
     <!-- build:js scripts/main.min.js -->
     <script src="scripts/ui.js"></script>
+    <script src="scripts/player.js"></script>
     <!-- endbuild -->
 </body>
 </html>
