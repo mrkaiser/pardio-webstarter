@@ -19,4 +19,5 @@ function TracklistController($scope){
 
 
 	mopidy.on("state:online",getTracks);
+	mopidy.on("event:trackPlaybackStarted",getTracks);
 }
