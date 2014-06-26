@@ -76,44 +76,34 @@
         <div id="main">
             
             <div class="pure-u-1-1" ng-controller="PlayerController">
-                <img src="assets/mibpicard.svg" alt="" ng-src="{{currentTrack.albumCover}}" class="pure-u-lg-1-3 pure-u-sm-1-1">
+                <img src="assets/mibpicard.svg" alt="" ng-src="{{currentTlTrack.albumCover}}" class="pure-u-lg-1-3 pure-u-sm-1-1">
                 
                 <div class="pure-u-lg-1-5 pure-u-sm-1-1" style="display:block">
-                    <span>{{currentTrack.name}}</span>
+                    <span>{{currentTlTrack.name}}</span>
                     <br>
-                    <span>{{currentTrack.artist}}</span>
+                    <span>{{currentTlTrack.artist}}</span>
                     <br>
-                    <span>{{currentTrack.album}}</span>
+                    <span>{{currentTlTrack.album}}</span>
                 </div>
             </div>
                 
                 
             </span>
             <hr>
-            <div class="pure-u-1">
-                <!--ng repeat on div--> 
-                <div>
-                    <span>
-                        <img src="assets/synchronicity.jpg" alt="synchronicity" class="pure-img pure-u-1-5">
-                    </span>
-                    <div style="display:inline-block">
-                        <span class="pure-u-1-3" style="display:block">TrackName </span>
-                        <span class="pure-u-1-3" style="display:block">Artist </span>
-                        <span style="display:block">Album</span>
-                    </div>
-                    
-                    <span style="float:right">Length</span>
+            <div class="pure-u-1" ng-controller="TracklistController">
+                
+                <div ng-repeat="tl_track in tracks" ng-include src="'templates/single-track-view.html'">
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.11/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://vela:6680/mopidy/mopidy.min.js"></script>
     <!-- build:js scripts/main.min.js -->
     <script src="scripts/ui.js"></script>
     <script src="scripts/player.js"></script>
+    <script src="scripts/tracklist.js"></script>
     <!-- endbuild -->
 </body>
 </html>
