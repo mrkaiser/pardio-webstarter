@@ -9,14 +9,13 @@ function PlayerController($scope, $http){
 
 	/**Gets the Cover for a given album, artist pair**/
 	var getCover = function(tl_track){
-		var artistQuery = tl_track.track.artists[0].name.split(' ').join('+');
-		var albumQuery = tl_track.track.album.name.split(' ').join('+');
-		var queryURL = 'http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=ec7bda8c5926d7d23369faf14c76954b&artist='+artistQuery+'&album='+albumQuery+'&format=json';
+		var lookup_uri = tl_track.track.album.uri.split(":").pop();
+		var queryURL = 'https://api.spotify.com/v1/albums/'+lookup_uri;
 		console.log(queryURL);
 		$http.get(queryURL)
 			.success(function(data){
 				console.log(data);
-				$scope.currentTlTrack.albumCover = data.album.image[4]["#text"];
+				$scope.currentTlTrack.albumCover = data.images[0]["url"];
 			});	
 	}
 
