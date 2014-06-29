@@ -18,14 +18,14 @@
 			$http.get(queryURL).success(function(data){
 				console.log(data);
 				player.currentTlTrack.albumCover = data.images[0]["url"];
-			});	
+			});
 		}
 
 		var trackSet = function(tl_track){
-			
+
 			player.currentTlTrack.name = tl_track.track.name;
 			player.currentTlTrack.artist = tl_track.track.artists[0].name;
-			player.currentTlTrack.album = tl_track.track.album.name;			
+			player.currentTlTrack.album = tl_track.track.album.name;
 			return tl_track;
 		}
 
@@ -36,7 +36,7 @@
 		}
 
 		mopidy.on("state:online", getCurrentTrack);
-		mopidy.on("event:trackPlaybackStarted",getCurrentTrack);	
+		mopidy.on("event:trackPlaybackStarted",getCurrentTrack);
 	}]);
 
 	app.controller('TracklistController',function(){
@@ -44,7 +44,7 @@
 		var tracklist = this;
 		tracklist.tracks = [];
 
-		
+
 
 		var getTracks = function(){
 			console.log('getting tracks');
@@ -54,34 +54,38 @@
 			}
 			mopidy.tracklist.getTlTracks().then(processTracks, console.error.bind(console));
 		}
-		
+
 		mopidy.on("state:online",getTracks);
 		mopidy.on("event:trackPlaybackStarted",getTracks);
 		mopidy.on("event:playbackStateChanged",getTracks);
 	});
 
-	app.controller('SearchController',function($q){
+	app.controller('SearchController',['$q',function($q){
 		var searchCtrl = this;
-		searchCtrl.results = [];
+		searchCtrl.results = {};
+		searchCtrl.results.tracks = [];
 		searchCtrl.query = '';
 
 		this.search = function(query){
 			console.log(searchCtrl.query);
 			var processTracks = function(results){
 				console.log(results);
-				searchCtrl.results = results[0].tracks;
-				searchCtrl.results.push(results[1].tracks);
-				searchCtrl.query = '';
+				//Mopidy does not consistently place the spotify results in the correct order
+
+				searchCtrl.results.tracks = results.map(function(searchResult){
+					return searchResult.tracks
+				});
+				searchCtrl.results.tracks = _.flatten(_.compact(searchCtrl.results.tracks));
 				return results;
 			}
 			$q.when(mopidy.library.search({"any": searchCtrl.query})).then(processTracks,console.error.bind(console));
 		}
 
-	});
+	}]);
 
-	
 
-	
+
+
 
 
 })();
