@@ -49,7 +49,7 @@
     <link rel="stylesheet" href="styles/slide-menu.css">
     <!-- endbuild -->
 </head>
-<body ng-app="partybox">>
+<body ng-app="partybox">
     <div id="layout">
         <!-- Menu toggle -->
         <a href="#menu" id="menuLink" class="menu-link">
@@ -79,7 +79,6 @@
             </form>
             <!--Search Results Table-->
             <div class="pure-u-1" >
-                {{searchCtrl.results.length}}
                 <div ng-repeat="track in searchCtrl.results" ng-include src="'templates/single-track-view.html'" >
                 </div>
             </div>

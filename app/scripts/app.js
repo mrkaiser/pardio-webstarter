@@ -1,11 +1,11 @@
 (function(){
-	var app = angular.module('partybox',[]);
+	var app = angular.module('partybox',[totimeFilter]);
 
 	var mopidy = new Mopidy({
 		webSocketUrl: "ws://vela:6680/mopidy/ws/"
 	});
 
-	app.controller('PlayerController',['$http',function($http){
+	app.controller('PlayerController',['$http', '$q',function($http,$q){
 		var player = this;
 		player.currentTlTrack = {};
 
@@ -30,7 +30,7 @@
 		}
 
 		var getCurrentTrack = function(){
-			mopidy.playback.getCurrentTlTrack()
+			$q.when(mopidy.playback.getCurrentTlTrack())
 			.then(trackSet, console.error.bind(console))
 			.then(getCover, console.error.bind(console));
 		}
@@ -39,7 +39,7 @@
 		mopidy.on("event:trackPlaybackStarted",getCurrentTrack);	
 	}]);
 
-	app.controller('TracklistController',function(){
+	app.controller('TracklistController',function($q){
 
 		var tracklist = this;
 		tracklist.tracks = [];
@@ -52,7 +52,7 @@
 				console.log(tracks);
 				tracklist.tracks = tracks.map(function(e){return e.track}); //extracts only the track object in the tracklist
 			}
-			mopidy.tracklist.getTlTracks().then(processTracks, console.error.bind(console));
+			$q.when(mopidy.tracklist.getTlTracks()).then(processTracks, console.error.bind(console));
 		}
 		
 		mopidy.on("state:online",getTracks);
