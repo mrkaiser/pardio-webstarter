@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" ng-app="">
+<html class="no-js" 
 <head>
     <meta charset="utf-8">
     <meta name="description" content="">
@@ -49,7 +49,7 @@
     <link rel="stylesheet" href="styles/slide-menu.css">
     <!-- endbuild -->
 </head>
-<body>
+<body ng-app="partybox">>
     <div id="layout">
         <!-- Menu toggle -->
         <a href="#menu" id="menuLink" class="menu-link">
@@ -67,22 +67,20 @@
             </div>
         </div>
 
-        <div id="main" ng-controller="SearchController">
+        <div id="main" ng-controller="SearchController as searchCtrl">
             <div class="header" >
                 <h1>Search and Add Tracks</h1>
             </div>
             <!--Search Bar-->
-            <form class="pure-form pure-g" >
+            <form class="pure-form pure-g" novalidate ng-submit="searchCtrl.search()">
                 <div class="pure-u-1">
-                    <input class="pure-input-1" type="search" placeholder="Search for Tracks" ng-model="query">
+                    <input class="pure-input-1" type="search" placeholder="Search for tracks" ng-model="searchCtrl.query">
                 </div> 
-                <button type="submit" ng-click="search()"></button>
-
             </form>
             <!--Search Results Table-->
             <div class="pure-u-1" >
-                {{tracks.length}}
-                <div ng-repeat="track in tracks" ng-include src="'templates/single-track-view.html'" >
+                {{searchCtrl.results.length}}
+                <div ng-repeat="track in searchCtrl.results" ng-include src="'templates/single-track-view.html'" >
                 </div>
             </div>
         </div>
@@ -92,7 +90,7 @@
     <script src="http://vela:6680/mopidy/mopidy.min.js"></script>
     <!-- build:js scripts/main.min.js -->
     <script src="scripts/ui.js"></script>
-    <script src="scripts/search.js"></script>
+    <script src="scripts/app.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -11,6 +11,7 @@ function TracklistController($scope){
 	var getTracks = function(){
 		console.log('getting tracks');
 		var processTracks = function(tracks){
+			console.log(tracks);
 			$scope.tracks = tracks;
 			$scope.apply();
 		}

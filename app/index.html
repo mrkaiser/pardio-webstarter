@@ -94,9 +94,9 @@
                 
             </span>
             <hr>
-            <div class="pure-u-1" ng-controller="TracklistController">
+            <div class="pure-u-1" ng-controller="TracklistController as tracklist">
                 
-                <div ng-repeat="track in tracks" ng-include src="'templates/single-track-view.html'">
+                <div ng-repeat="track in tracklist.tracks" ng-include src="'templates/single-track-view.html'">
                 </div>
             </div>
         </div>
@@ -107,7 +107,6 @@
     <!-- build:js scripts/main.min.js -->
     <script src="scripts/ui.js"></script>
     <script src="scripts/app.js"></script>
-    <script src="scripts/tracklist.js"></script>
     <!-- endbuild -->
 </body>
 </html>

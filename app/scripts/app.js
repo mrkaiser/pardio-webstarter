@@ -8,7 +8,7 @@
 	app.controller('PlayerController',['$http',function($http){
 		var player = this;
 		player.currentTlTrack = {};
-		
+
 
 		/**Gets the Cover for a given album, artist pair**/
 		var getCover = function(tl_track){
@@ -22,7 +22,7 @@
 		}
 
 		var trackSet = function(tl_track){
-			console.log(player.currentTlTrack);
+			
 			player.currentTlTrack.name = tl_track.track.name;
 			player.currentTlTrack.artist = tl_track.track.artists[0].name;
 			player.currentTlTrack.album = tl_track.track.album.name;			
@@ -36,9 +36,50 @@
 		}
 
 		mopidy.on("state:online", getCurrentTrack);
-		mopidy.on("event:trackPlaybackStarted",getCurrentTrack);
-		
+		mopidy.on("event:trackPlaybackStarted",getCurrentTrack);	
 	}]);
+
+	app.controller('TracklistController',function(){
+
+		var tracklist = this;
+		tracklist.tracks = [];
+
+		
+
+		var getTracks = function(){
+			console.log('getting tracks');
+			var processTracks = function(tracks){
+				console.log(tracks);
+				tracklist.tracks = tracks.map(function(e){return e.track}); //extracts only the track object in the tracklist
+			}
+			mopidy.tracklist.getTlTracks().then(processTracks, console.error.bind(console));
+		}
+		
+		mopidy.on("state:online",getTracks);
+		mopidy.on("event:trackPlaybackStarted",getTracks);
+		mopidy.on("event:playbackStateChanged",getTracks);
+	});
+
+	app.controller('SearchController',function($q){
+		var searchCtrl = this;
+		searchCtrl.results = [];
+		searchCtrl.query = '';
+
+		this.search = function(query){
+			console.log(searchCtrl.query);
+			var processTracks = function(results){
+				console.log(results);
+				searchCtrl.results = results[0].tracks;
+				searchCtrl.results.push(results[1].tracks);
+				searchCtrl.query = '';
+				return results;
+			}
+			$q.when(mopidy.library.search({"any": searchCtrl.query})).then(processTracks,console.error.bind(console));
+		}
+
+	});
+
+	
 
 	
 
