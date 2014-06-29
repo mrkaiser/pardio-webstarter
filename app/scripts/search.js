@@ -5,14 +5,15 @@ var mopidy = new Mopidy({
 });
 
 function SearchController($scope){
-	$scope.tracks = "";
+	$scope.tracks = null;
 
 
 	$scope.search = function(){
 		var processTracks = function(results){
-			$scope.tracks = results[0].tracks;
-			$scope.apply();
-			console.log($scope.tracks);
+			$scope.tracks = null;
+			$scope.tracks = results[1].tracks;
+			$scope.query = {};
+			return results;
 		}
 		//search takes a DICTIONARY not a pure string
 		mopidy.library.search({"any": $scope.query}).then(processTracks,console.error.bind(console)); 

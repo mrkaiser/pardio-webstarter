@@ -72,16 +72,17 @@
                 <h1>Search and Add Tracks</h1>
             </div>
             <!--Search Bar-->
-            <form ng-submit="search()" class="pure-form pure-g" >
+            <form class="pure-form pure-g" >
                 <div class="pure-u-1">
                     <input class="pure-input-1" type="search" placeholder="Search for Tracks" ng-model="query">
-                </div>
+                </div> 
+                <button type="submit" ng-click="search()"></button>
 
             </form>
             <!--Search Results Table-->
-            <div class="pure-u-1">
-                
-                <div ng-repeat="track in tracks" ng-include src="'templates/single-track-view.html'" ng-model="tracks">
+            <div class="pure-u-1" >
+                {{tracks.length}}
+                <div ng-repeat="track in tracks" ng-include src="'templates/single-track-view.html'" >
                 </div>
             </div>
         </div>
