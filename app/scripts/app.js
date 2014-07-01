@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module('partybox',[totimeFilter]);
+	var app = angular.module('partybox',[]);
 
 	var mopidy = new Mopidy({
 		webSocketUrl: "ws://vela:6680/mopidy/ws/"
